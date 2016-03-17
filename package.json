@@ -1,0 +1,26 @@
+{
+  "name": "htmlrenderer-service",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "node processes/web"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "boar-server": "2.3.0",
+    "koa": "1.1.2",
+    "koa-router": "5.4.0",
+    "logentries-logformat": "0.1.4",
+    "phridge": "2.0.0"
+  },
+  "devDependencies": {
+    "boar-tasks-server": "3.3.1",
+    "eslint-config-emarsys": "2.0.0",
+    "gulp": "3.9.1",
+    "run-sequence": "1.1.5"
+  },
+  "engines": {
+    "node": "5.8.0"
+  }
+}

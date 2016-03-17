@@ -1,0 +1,66 @@
+html
+  head
+    link(type="image/x-icon" rel="icon" href="http://www.emarsys.com/en/wp-content/themes/emarsys/img/icons/favicon.ico")
+    link(href='http://fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css')
+    link(rel="apple-touch-icon" href="http://www.emarsys.com/en/wp-content/themes/emarsys/img/ios-touch-icon/emarsys-touch-57x57.png")
+    link(rel="apple-touch-icon" sizes="72x72" href="http://www.emarsys.com/en/wp-content/themes/emarsys/img/ios-touch-icon/emarsys-touch-72x72.png")
+    link(rel="apple-touch-icon" sizes="114x114" href="http://www.emarsys.com/en/wp-content/themes/emarsys/img/ios-touch-icon/emarsys-touch-114x114.png")
+    link(rel="apple-touch-icon" sizes="144x144" href="http://www.emarsys.com/en/wp-content/themes/emarsys/img/ios-touch-icon/emarsys-touch-144x144.png")
+    link(rel="stylesheet" href="https://redirector.eservice.emarsys.net/ui/latest/css/app.css")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/codemirror.min.css")
+    script(src="https://redirector.eservice.emarsys.net/ui/latest/js/app.js")
+    script(src="https://code.jquery.com/jquery-2.2.1.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/codemirror.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/mode/xml/xml.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/mode/javascript/javascript.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/mode/css/css.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/mode/htmlmixed/htmlmixed.js")
+    meta(charset='utf-8')
+    title HTML Renderer
+
+    style.
+      .CodeMirror {
+        border: 1px solid #ddd
+      }
+
+  body
+
+    .e-box(style="margin: 25px")
+
+      .e-row
+        .e-col-8
+          h2 HTML Code
+          .e-field
+            textarea#html_fragment.e-input.e-input-textarea
+              include block.html
+        .e-col-4
+          h2(style="margin-bottom: -50px") Preview
+          img#preview(style="margin-top: 25px; transform: scale(.75)")
+        .e-col.e-col__separator.e-col__separator-8
+
+
+
+  script.
+    var editor = CodeMirror.fromTextArea(document.getElementById('html_fragment'), {
+      lineNumbers: true,
+      mode: 'htmlmixed'
+    });
+
+    var refresh = function() {
+      $.ajax({
+        url: '/api/render',
+        type: 'post',
+        data: { render: editor.getValue() },
+        success: function(response) {
+          document.getElementById('preview').src = 'data:image/png;base64,' + response.imageSrc;
+        },
+        error: function(a, b, e) {
+          console.log('Error happened :(', e, a, b);
+        }
+      });
+    };
+
+    editor.on('change', refresh);
+    setTimeout(refresh, 100);
+    setTimeout(refresh, 1000);
+    setTimeout(refresh, 2000);
